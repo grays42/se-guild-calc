@@ -91,7 +91,7 @@ const translations = {
     basicGuildAdvancementLabel: "Basic Guild Advancement",
     advancedGuildAdvancementLabel: "Advanced Guild Advancement"
   },
-  cn: {
+  zh: {
     investmentRequiredTradeLabel: "贸易所需投资: ",
     investmentRequiredPopulationLabel: "人口所需投资: ",
     investmentRequiredTechLabel: "技术所需投资: ",
