@@ -74,7 +74,7 @@ const benchmarks = [
   { id: 'maxPopulation', 'en-name': 'Max Population', 'zh-name': '最大人口', trade: 0, population: 50000, tech: 0 },
   { id: 'maxTech', 'en-name': 'Max Technology', 'zh-name': '最大技术', trade: 0, population: 0, tech: 1000 }
 ];
-
+ 
 const translations = {
   en: {
     investmentRequiredTradeLabel: "Investment Required for Trade: ",
