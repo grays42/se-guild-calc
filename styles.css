@@ -6,8 +6,15 @@ body {
 
 h1 {
     text-align: center;
-    padding: 20px 0;
+    padding-bottom: 0; /* remove bottom padding */
     color: #40E0D0; /* Teal */
+}
+
+h2 {
+    text-align: center;
+    padding-top: 0; /* remove top padding */
+    color: #40E0D0; /* Teal */
+    font-size: 1.2em; /* Adjust to your preference */
 }
 
 form {
