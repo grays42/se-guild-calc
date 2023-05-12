@@ -1,0 +1,87 @@
+body {
+    background-color: #1c1c1e;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+    padding: 20px 0;
+    color: #40E0D0; /* Teal */
+}
+
+form {
+    width: 80%;
+    margin: 0 auto;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: 5px;
+    margin: 10px 0;
+    box-sizing: border-box;
+    background: #282828;
+    border: none;
+    color: #ffffff;
+}
+
+input[type="checkbox"], input[type="radio"] {
+    margin: 10px 5px;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+    color: #40E0D0; /* Teal */
+}
+
+input[type="radio"] + label {
+    display: inline-block;
+    margin: 0 10px 0 0;
+    color: #ffffff;
+}
+
+#language-selector {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input[type="checkbox"]:checked + label,
+input[type="radio"]:checked + label {
+    color: #007FFF; /* Blue */
+}
+
+span {
+    display: block;
+    margin: 5px 0;
+    color: #007FFF; /* Blue */
+}
+
+table {
+    border-collapse: collapse;
+    width: 600px;
+    margin: auto;
+    table-layout: fixed;
+}
+
+table, th, td {
+    border: 0px solid #444; /* Added the border style and width */
+}
+
+td {
+    width: 10%;
+    padding: 2px;
+    text-align: center;
+}
+
+output {
+    font-size: 1.5em; /* Makes the font size larger */
+    font-weight: bold; /* Makes the font bolder */
+    color: #3399FF; /* Changes the color to bright blue */
+}
+
+.bold-output {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #3399FF;
+}

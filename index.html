@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sailing Era Port Calculator</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <h1>Sailing Era Port Calculator</h1>
+        <form id="portForm">
+
+        <div id="language-selector">
+          <input type="radio" id="english" name="language" value="English" checked>
+          <label for="english">
+              🇺🇸 English
+          </label>
+
+          <input type="radio" id="chinese" name="language" value="Chinese">
+          <label for="chinese">
+              🇨🇳 中文
+          </label>
+        </div>
+
+
+        <table>
+          <tbody>
+            <tr>
+              <td colspan="6">
+                <label for="permits">Permits:</label>
+                <input data-lang="permitsLabel" type="radio" id="guildEstablished" name="permits" value="guildEstablished" checked>
+                <label data-lang="guildEstablishedLabel" for="guildEstablished">Guild Established</label><br>
+                <input type="radio" id="basicGuildAdvancement" name="permits" value="basicGuildAdvancement">
+                <label data-lang="basicGuildAdvancementLabel" for="basicGuildAdvancement">Basic Guild Advancement</label><br>
+                <input type="radio" id="advancedGuildAdvancement" name="permits" value="advancedGuildAdvancement">
+                <label data-lang="advancedGuildAdvancementLabel" for="advancedGuildAdvancement">Advanced Guild Advancement</label><br>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><label data-lang="tradeLabel" for="trade">Current Trade Level: </label>
+                  <input type="number" id="tradeInput" name="trade" min="0" max="1000"value="0"></td>
+              <td colspan="2"><label data-lang="populationLabel" for="population">Current Population: </label>
+                  <input type="number" id="populationInput" name="population" min="0" max="50000" value="0"></td>
+              <td colspan="2"><label data-lang="techLabel" for="tech">Current Technology Level: </label>
+                  <input type="number" id="techInput" name="tech" min="0" max="1000" value="0"></td>
+            </tr>
+            <tr>
+              <td colspan="2"><label data-lang="currentInvestmentTradeLabel" for="currentInvestmentTrade">Current Investment in Trade: </label>
+                  <input type="number" id="currentInvestmentTrade" min="0" max="500000"></td>
+              <td colspan="2"><label data-lang="currentInvestmentPopulationLabel" for="currentInvestmentPopulation">Current Investment in Population: </label>
+                  <input type="number" id="currentInvestmentPopulation" min="0" max="500000"></td>
+              <td colspan="2"><label data-lang="currentInvestmentTechLabel" for="currentInvestmentTech">Current Investment in Technology: </label>
+                  <input type="number" id="currentInvestmentTech" min="0" max="500000"></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                  <label data-lang="investmentRequiredTradeLabel" for="investmentRequiredTrade">Investment Required for Trade: </label>
+                  <output class="bold-output" id="investmentRequiredTrade" name="investmentRequiredTrade">0</output>
+              </td>
+              <td colspan="2">
+                  <label data-lang="investmentRequiredPopulationLabel" for="investmentRequiredPopulation">Investment Required for Population: </label>
+                  <output class="bold-output" id="investmentRequiredPopulation" name="investmentRequiredPopulation">0</output>
+              </td>
+              <td colspan="2">
+                  <label data-lang="investmentRequiredTechLabel" for="investmentRequiredTech">Investment Required for Technology: </label>
+                  <output class="bold-output" id="investmentRequiredTech" name="investmentRequiredTech">0</output>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2"><input type="checkbox" id="hobbyGoods" name="hobbyGoods">
+                <label for="hobbyGoods">Hobby Goods Output +50%</label><br>
+                <span id="hobbyGoods-results"></span>
+              </td>
+              <td colspan="2">
+                <input type="checkbox" id="foodOutput" name="foodOutput">
+                <label for="foodOutput">Food Output +50%</label><br>
+                <span id="foodOutput-results"></span>
+              </td>
+              <td colspan="2">
+                <input type="checkbox" id="industrialGoods" name="industrialGoods">
+                <label for="industrialGoods">Industrial Goods Output +50%</label><br>
+                <span id="industrialGoods-results"></span>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="2">
+                <input type="checkbox" id="goodsStorage" name="goodsStorage">
+                <label for="goodsStorage">Goods Storage Limit +10%</label>
+                <span id="goodsStorage-results"></span>
+              </td>
+              <td colspan="2">
+                <input type="checkbox" id="tradeFleet1" name="tradeFleet1">
+                <label for="tradeFleet1">+1 Trade Fleet</label><br>
+                <span id="tradeFleet1-results"></span>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input type="checkbox" id="spiceOutput" name="spiceOutput">
+                <label for="spiceOutput">Spice Output +50%</label><br>
+                <span id="spiceOutput-results"></span>
+              </td>
+              <td colspan="2">
+                <input type="checkbox" id="beverageOutput" name="beverageOutput">
+                <label for="beverageOutput">Beverage Output +50%</label><br>
+                <span id="beverageOutput-results"></span>
+              </td>
+              <td colspan="2">
+                <input type="checkbox" id="textileOutput" name="textileOutput">
+                <label for="textileOutput">Textile Output +50%</label><br>
+                <span id="textileOutput-results"></span>
+              </td>
+            </tr>
+            <tr>
+              <td></td>
+              <td colspan="2">
+                <input type="checkbox" id="prosperityChance" name="prosperityChance">
+                <label for="prosperityChance">Increased Prosperity Chance</label><br>
+                <span id="prosperityChance-results"></span>
+              </td>
+              <td colspan="2">
+                <input type="checkbox" id="tradeFleet2" name="tradeFleet2">
+                <label for="tradeFleet2">+2 Trade Fleet</label><br>
+                <span id="tradeFleet2-results"></span>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                  <input type="checkbox" id="gemstoneOutput" name="gemstoneOutput">
+                  <label for="gemstoneOutput">Gemstone Output +50%</label><br>
+                  <span id="gemstoneOutput-results"></span>
+                </td>
+                <td colspan="2">
+                  <input type="checkbox" id="medicineOutput" name="medicineOutput">
+                  <label for="medicineOutput">Medicine Output +50%</label><br>
+                  <span id="medicineOutput-results"></span>
+                </td>
+                <td colspan="2">
+                  <input type="checkbox" id="artwareOutput" name="artwareOutput">
+                  <label for="artwareOutput">Artware Output +50%</label><br>
+                  <span id="artwareOutput-results"></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                  <input type="checkbox" id="premiumGoods" name="premiumGoods">
+                  <label for="premiumGoods">Sells Premium Goods</label><br>
+                  <span id="premiumGoods-results"></span>
+                </td>
+                <td colspan="2">
+                  <input type="checkbox" id="moreItemTypes" name="moreItemTypes">
+                  <label for="moreItemTypes">Unlocks More Item Types</label><br>
+                  <span id="moreItemTypes-results"></span>
+                </td>
+                <td colspan="2">
+                  <input type="checkbox" id="tradeFleetRange" name="tradeFleetRange">
+                  <label for="tradeFleetRange">Increased Range of Trade Fleets</label><br>
+                  <span id="tradeFleetRange-results"></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                  <input type="checkbox" id="maxTrade" name="maxTrade">
+                  <label for="maxTrade">Max Trade</label><br>
+                  <span id="maxTrade-results"></span>
+                </td>
+                <td colspan="2">
+                  <input type="checkbox" id="maxPopulation" name="maxPopulation">
+                  <label for="maxPopulation">Max Population</label><br>
+                  <span id="maxPopulation-results"></span>
+                </td>
+                <td colspan="2">
+                  <input type="checkbox" id="maxTech" name="maxTech">
+                  <label for="maxTech">Max Technology</label><br>
+                  <span id="maxTech-results"></span>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+    </form>
+    <script src="calculator.js"></script>
+</body>
+</html>
