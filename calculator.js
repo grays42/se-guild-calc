@@ -50,6 +50,8 @@ function recognizeTextFromImage(image, x, y, width, height) {
 
 // Function to process the image
 function processImage(imageDataUrl) {
+    document.getElementById('processing-message').style.display = 'block';
+    updateProcessingMessage();
     Tesseract.recognize(
         imageDataUrl,
         'eng'
@@ -93,8 +95,9 @@ function processImage(imageDataUrl) {
         }
 
         // After populating, call the function
+        document.getElementById('processing-message').style.display = 'none';
+        document.getElementById('screenshot-area').style.backgroundImage = "url('screenshot_default.png')";
         calculateAndUpdate();
-
     }).catch((err) => {
         console.error(`Error recognizing text: ${err}`); // Log error if Tesseract fails
     });
@@ -126,6 +129,7 @@ function switchLanguage(lang) {
       elem.textContent = benchmark[`${lang}-name`];
     }
   });
+  updateProcessingMessage();
 }
 
 // Add event listener for each radio button
@@ -161,7 +165,8 @@ const benchmarks = [
 ];
  
 const translations = {
-  en: {
+  english: {
+    processingMessage: "Processing screenshot (may take 10-20 seconds)",
     investmentRequiredTradeLabel: "Investment Required for Trade: ",
     investmentRequiredPopulationLabel: "Investment Required for Population: ",
     investmentRequiredTechLabel: "Investment Required for Technology: ",
@@ -176,7 +181,8 @@ const translations = {
     basicGuildInvestmentLabel: "Basic Guild Investment",
     advancedGuildInvestmentLabel: "Advanced Guild Investment"
   },
-  zh: {
+  chinese: {
+    processingMessage: "正在处理屏幕截图（可能需要10-20秒）",
     investmentRequiredTradeLabel: "贸易所需投资: ",
     investmentRequiredPopulationLabel: "人口所需投资: ",
     investmentRequiredTechLabel: "技术所需投资: ",
@@ -197,10 +203,10 @@ document.querySelectorAll('input[name="language"]').forEach((elem) => {
   elem.addEventListener('change', function() {
     if (this.value === 'English') {
       // Switch to English
-      Object.keys(translations.en).forEach((key) => {
+      Object.keys(translations.english).forEach((key) => {
         let element = document.getElementById(key);
         if (element) {
-          element.innerText = translations.en[key];
+          element.innerText = translations.english[key];
         }
       });
 
@@ -214,11 +220,11 @@ document.querySelectorAll('input[name="language"]').forEach((elem) => {
     } else if (this.value === 'Chinese') {
       // Switch to Chinese
       console.log(`switching to Chinese`)
-      Object.keys(translations.zh).forEach((key) => {
+      Object.keys(translations.chinese).forEach((key) => {
         console.log(`setting element ${key}`)
         let element = document.getElementById(key);
         if (element) {
-          element.innerText = translations.zh[key];
+          element.innerText = translations.chinese[key];
         }
       });
 
@@ -244,6 +250,12 @@ function hasBasicGuildInvestment() {
 function hasAdvancedGuildInvestment() {
     let permit = document.querySelector('input[name="permits"]:checked').value;
     return permit === 'advancedGuildInvestment';
+}
+
+function updateProcessingMessage() {
+  const language = document.querySelector('#language-selector input:checked').id;
+  const processingMessage = document.getElementById('processing-message');
+  processingMessage.textContent = translations[language].processingMessage;
 }
 
 function calculateOverallTargets(benchmarks) {
@@ -288,7 +300,7 @@ function calculateGoldInvestmentNeededAndConsumptionTime(category, currentPoints
         if(tempOverallGoldInvestment < goldInvestmentNeeded) { tempOverallGoldInvestment = goldInvestmentNeeded }
         time = 0;
 
-        console.log(`Scenario: ${goldInvestmentNeeded} gold invested (${tempOverallGoldInvestment} overall), currently ${tempCurrentPoints}, target ${targetPoints}`)
+        if(verbose()) { console.log(`Scenario: ${goldInvestmentNeeded} gold invested (${tempOverallGoldInvestment} overall), currently ${tempCurrentPoints}, target ${targetPoints}`) }
         while(tempGoldToInvest > 9999 && tempCurrentPoints < targetPoints) {
             if(tempOverallGoldInvestment > 150000 && advancedGuildInvestment) {
                 rate = 20000;
@@ -310,7 +322,7 @@ function calculateGoldInvestmentNeededAndConsumptionTime(category, currentPoints
             if (tempCurrentPoints < naturalGrowthCap) {
                 tempCurrentPoints += naturalGrowth;
             }
-            console.log(`    month ${time}, spent ${rate}g, points ${tempCurrentPoints}, gold ${tempGoldToInvest}`)
+            if(verbose()) { console.log(`    month ${time}, spent ${rate}g, points ${tempCurrentPoints}, gold ${tempGoldToInvest}`) }
         }
     }
 
