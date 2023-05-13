@@ -61,33 +61,41 @@ function processImage(imageDataUrl) {
         const firstRowMatches = text.match(/[﹕:]\s*?(\d+)/g);
 
         if (firstRowMatches && firstRowMatches.length >= 3) {
+          console.log("match: ",firstRowMatches);
           const trade = firstRowMatches[0].match(/\d+/)[0];
           const pop = firstRowMatches[1].match(/\d+/)[0];
           const tech = firstRowMatches[2].match(/\d+/)[0];
 
-          console.log("Trade:", trade);
+          console.log("port trade:", trade);
           document.getElementById('tradeInput').value = trade;
-          console.log("Pop:", pop);
+          console.log("port pop:", pop);
           document.getElementById('populationInput').value = pop;
-          console.log("Tech:", tech);
+          console.log("port tech:", tech);
           document.getElementById('techInput').value = tech;
         }
-        const fundPoolMatches = text.match(/:\s?(\d+)\/(?:50000|150000|500000)/g);
+        const fundPoolMatches = text.match(/:\s?(\d+)\/(?:500000|150000|50000)/g);
         if (fundPoolMatches) {
+            console.log("match: ",fundPoolMatches);
             const [tradeInvestment, popInvestment, techInvestment] = fundPoolMatches.map(match => {
                 const [_, current, total] = match.match(/(\d+)\/(\d+)/);
                 if (total === "50000") {
+                    console.log("permit level: guild established");
                     document.getElementById('guildEstablished').checked = true;
                 } else if (total === "150000") {
+                    console.log("permit level: basic guild investment");
                     document.getElementById('basicGuildInvestment').checked = true;
                 } else if (total === "500000") {
+                    console.log("permit level: advanced guild investment");
                     document.getElementById('advancedGuildInvestment').checked = true;
                 }
                 return current;
             });
 
+            console.log("current trade investment::", tradeInvestment);
             document.getElementById('currentInvestmentTrade').value = tradeInvestment;
+            console.log("current pop investment::", popInvestment);
             document.getElementById('currentInvestmentPopulation').value = popInvestment;
+            console.log("current tech investment::", techInvestment);
             document.getElementById('currentInvestmentTech').value = techInvestment;
         }
 
