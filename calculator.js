@@ -51,31 +51,28 @@ function recognizeTextFromImage(image, x, y, width, height) {
 // Function to process the image
 function processImage(imageDataUrl) {
     document.getElementById('processing-message').style.display = 'block';
-    updateProcessingMessage();
     Tesseract.recognize(
         imageDataUrl,
-        'eng'
+        'eng+chi_sim+chi_tra'
     ).then(({ data: { text } }) => {
         console.log(`Recognized text: ${text}`); // Log recognized text
 
         // Extract and set values using regular expressions
-        const tradeMatch = text.match(/Trade:\s(\d+)/);
-        const popMatch = text.match(/Pop:\s(\d+)/);
-        const techMatch = text.match(/Tech:\s(\d+)/);
-        const fundPoolMatches = text.match(/Fund Pool:(\d+)\/(\d+)/g);
+        const firstRowMatches = text.match(/[﹕:]\s*?(\d+)/g);
 
-        if (tradeMatch) {
-            document.getElementById('tradeInput').value = tradeMatch[1];
+        if (firstRowMatches && firstRowMatches.length >= 3) {
+          const trade = firstRowMatches[0].match(/\d+/)[0];
+          const pop = firstRowMatches[1].match(/\d+/)[0];
+          const tech = firstRowMatches[2].match(/\d+/)[0];
+
+          console.log("Trade:", trade);
+          document.getElementById('tradeInput').value = trade;
+          console.log("Pop:", pop);
+          document.getElementById('populationInput').value = pop;
+          console.log("Tech:", tech);
+          document.getElementById('techInput').value = tech;
         }
-
-        if (popMatch) {
-            document.getElementById('populationInput').value = popMatch[1];
-        }
-
-        if (techMatch) {
-            document.getElementById('techInput').value = techMatch[1];
-        }
-
+        const fundPoolMatches = text.match(/:\s?(\d+)\/(?:50000|150000|500000)/g);
         if (fundPoolMatches) {
             const [tradeInvestment, popInvestment, techInvestment] = fundPoolMatches.map(match => {
                 const [_, current, total] = match.match(/(\d+)\/(\d+)/);
@@ -95,7 +92,6 @@ function processImage(imageDataUrl) {
         }
 
         // After populating, call the function
-        document.getElementById('processing-message').style.display = 'none';
         document.getElementById('screenshot-area').style.backgroundImage = "url('screenshot_default.png')";
         calculateAndUpdate();
     }).catch((err) => {
@@ -129,7 +125,6 @@ function switchLanguage(lang) {
       elem.textContent = benchmark[`${lang}-name`];
     }
   });
-  updateProcessingMessage();
 }
 
 // Add event listener for each radio button
@@ -166,7 +161,10 @@ const benchmarks = [
  
 const translations = {
   english: {
-    processingMessage: "Processing screenshot (may take 10-20 seconds)",
+    processingMessage: `Paste a screenshot of your trade screen here (any language).
+Pulling the values from it may take up to 10 seconds, after
+which the values of your permit level, current investments,
+and current port levels will populate in the fields below.`,
     investmentRequiredTradeLabel: "Investment Required for Trade: ",
     investmentRequiredPopulationLabel: "Investment Required for Population: ",
     investmentRequiredTechLabel: "Investment Required for Technology: ",
@@ -182,7 +180,10 @@ const translations = {
     advancedGuildInvestmentLabel: "Advanced Guild Investment"
   },
   chinese: {
-    processingMessage: "正在处理屏幕截图（可能需要10-20秒）",
+    processingMessage: `请在此处粘贴您的交易屏幕截图（任何语言）。
+提取数值可能需要最多10秒的时间，
+之后您的许可等级、当前投资和当前港口等级的数值
+将填充在下方的字段中。`,
     investmentRequiredTradeLabel: "贸易所需投资: ",
     investmentRequiredPopulationLabel: "人口所需投资: ",
     investmentRequiredTechLabel: "技术所需投资: ",
@@ -204,14 +205,14 @@ document.querySelectorAll('input[name="language"]').forEach((elem) => {
     if (this.value === 'English') {
       // Switch to English
       Object.keys(translations.english).forEach((key) => {
-        let element = document.getElementById(key);
+        let element = document.querySelector(`[data-lang="${key}"]`);
         if (element) {
           element.innerText = translations.english[key];
         }
       });
 
       benchmarks.forEach((benchmark) => {
-        let element = document.getElementById(benchmark.id);
+        let element = document.querySelector(`label[for="${benchmark.id}"]`);
         if (element) {
           element.innerText = benchmark['en-name'];
         }
@@ -219,27 +220,22 @@ document.querySelectorAll('input[name="language"]').forEach((elem) => {
 
     } else if (this.value === 'Chinese') {
       // Switch to Chinese
-      console.log(`switching to Chinese`)
       Object.keys(translations.chinese).forEach((key) => {
-        console.log(`setting element ${key}`)
-        let element = document.getElementById(key);
+        let element = document.querySelector(`[data-lang="${key}"]`);
         if (element) {
           element.innerText = translations.chinese[key];
         }
       });
 
       benchmarks.forEach((benchmark) => {
-        console.log(`setting element ${benchmark.id}`)
-        let element = document.getElementById(benchmark.id);
+        let element = document.querySelector(`label[for="${benchmark.id}"]`);
         if (element) {
           element.innerText = benchmark['zh-name'];
         }
       });
-      console.log(`Done localizing.`)
     }
   });
 });
-
 function verbose() { return true; }
 
 function hasBasicGuildInvestment() {
@@ -250,12 +246,6 @@ function hasBasicGuildInvestment() {
 function hasAdvancedGuildInvestment() {
     let permit = document.querySelector('input[name="permits"]:checked').value;
     return permit === 'advancedGuildInvestment';
-}
-
-function updateProcessingMessage() {
-  const language = document.querySelector('#language-selector input:checked').id;
-  const processingMessage = document.getElementById('processing-message');
-  processingMessage.textContent = translations[language].processingMessage;
 }
 
 function calculateOverallTargets(benchmarks) {
