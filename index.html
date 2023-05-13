@@ -21,8 +21,9 @@
               🇨🇳 中文
           </label>
         </div>
-
-
+        <div class="centered-container">
+          <div id="screenshot-area" contenteditable="true"></div>
+        </div>
         <table>
           <tbody>
             <tr>
@@ -30,10 +31,10 @@
                 <label for="permits">Permits:</label>
                 <input data-lang="permitsLabel" type="radio" id="guildEstablished" name="permits" value="guildEstablished" checked>
                 <label data-lang="guildEstablishedLabel" for="guildEstablished">Guild Established</label><br>
-                <input type="radio" id="basicGuildAdvancement" name="permits" value="basicGuildAdvancement">
-                <label data-lang="basicGuildAdvancementLabel" for="basicGuildAdvancement">Basic Guild Advancement</label><br>
-                <input type="radio" id="advancedGuildAdvancement" name="permits" value="advancedGuildAdvancement">
-                <label data-lang="advancedGuildAdvancementLabel" for="advancedGuildAdvancement">Advanced Guild Advancement</label><br>
+                <input type="radio" id="basicGuildInvestment" name="permits" value="basicGuildInvestment">
+                <label data-lang="basicGuildInvestmentLabel" for="basicGuildInvestment">Basic Guild Investment</label><br>
+                <input type="radio" id="advancedGuildInvestment" name="permits" value="advancedGuildInvestment">
+                <label data-lang="advancedGuildInvestmentLabel" for="advancedGuildInvestment">Advanced Guild Investment</label><br>
               </td>
             </tr>
             <tr> 
@@ -182,5 +183,6 @@
         </table>
     </form>
     <script src="calculator.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js'></script>
 </body>
 </html>

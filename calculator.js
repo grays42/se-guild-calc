@@ -13,7 +13,92 @@ currentInvestmentTrade.addEventListener('input', calculateAndUpdate);
 currentInvestmentPopulation.addEventListener('input', calculateAndUpdate);
 currentInvestmentTech.addEventListener('input', calculateAndUpdate);
 
+radioButtons.forEach((radioButton) => {
+    radioButton.addEventListener('change', calculateAndUpdate);
+});
 
+// Listener for paste event
+document.addEventListener('paste', function (event) {
+    var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+
+    for (var index in items) {
+        var item = items[index];
+        if (item.kind === 'file') {
+            var blob = item.getAsFile();
+            var reader = new FileReader();
+            reader.onload = function(event){
+                console.log('File read: ', event.target.result);
+                processImage(event.target.result);
+            };
+            reader.readAsDataURL(blob);
+        }
+    }
+});
+
+function recognizeTextFromImage(image, x, y, width, height) {
+    Tesseract.recognize(
+        image,
+        'eng',
+        { 
+            rectangle: { top: y, left: x, width: width, height: height }
+        }
+    ).then(({ data: { text } }) => {
+        console.log(text);
+    });
+}
+
+
+// Function to process the image
+function processImage(imageDataUrl) {
+    Tesseract.recognize(
+        imageDataUrl,
+        'eng'
+    ).then(({ data: { text } }) => {
+        console.log(`Recognized text: ${text}`); // Log recognized text
+
+        // Extract and set values using regular expressions
+        const tradeMatch = text.match(/Trade:\s(\d+)/);
+        const popMatch = text.match(/Pop:\s(\d+)/);
+        const techMatch = text.match(/Tech:\s(\d+)/);
+        const fundPoolMatches = text.match(/Fund Pool:(\d+)\/(\d+)/g);
+
+        if (tradeMatch) {
+            document.getElementById('tradeInput').value = tradeMatch[1];
+        }
+
+        if (popMatch) {
+            document.getElementById('populationInput').value = popMatch[1];
+        }
+
+        if (techMatch) {
+            document.getElementById('techInput').value = techMatch[1];
+        }
+
+        if (fundPoolMatches) {
+            const [tradeInvestment, popInvestment, techInvestment] = fundPoolMatches.map(match => {
+                const [_, current, total] = match.match(/(\d+)\/(\d+)/);
+                if (total === "50000") {
+                    document.getElementById('guildEstablished').checked = true;
+                } else if (total === "150000") {
+                    document.getElementById('basicGuildInvestment').checked = true;
+                } else if (total === "500000") {
+                    document.getElementById('advancedGuildInvestment').checked = true;
+                }
+                return current;
+            });
+
+            document.getElementById('currentInvestmentTrade').value = tradeInvestment;
+            document.getElementById('currentInvestmentPopulation').value = popInvestment;
+            document.getElementById('currentInvestmentTech').value = techInvestment;
+        }
+
+        // After populating, call the function
+        calculateAndUpdate();
+
+    }).catch((err) => {
+        console.error(`Error recognizing text: ${err}`); // Log error if Tesseract fails
+    });
+}
 
 document.querySelectorAll('input[name="language"]').forEach((elem) => {
   elem.addEventListener('change', function() {
@@ -88,8 +173,8 @@ const translations = {
     currentInvestmentTechLabel: "Current Investment in Technology:",
     permitsLabel: "Permits:",
     guildEstablishedLabel: "Guild Established",
-    basicGuildAdvancementLabel: "Basic Guild Advancement",
-    advancedGuildAdvancementLabel: "Advanced Guild Advancement"
+    basicGuildInvestmentLabel: "Basic Guild Investment",
+    advancedGuildInvestmentLabel: "Advanced Guild Investment"
   },
   zh: {
     investmentRequiredTradeLabel: "贸易所需投资: ",
@@ -103,8 +188,8 @@ const translations = {
     currentInvestmentTechLabel: "当前技术投资：",
     permitsLabel: "许可证：",
     guildEstablishedLabel: "公会已成立",
-    basicGuildAdvancementLabel: "基础公会进步",
-    advancedGuildAdvancementLabel: "高级公会进步"
+    basicGuildInvestmentLabel: "基础公会投资",
+    advancedGuildInvestmentLabel: "高级公会投资"
   }
 }
 
@@ -151,14 +236,14 @@ document.querySelectorAll('input[name="language"]').forEach((elem) => {
 
 function verbose() { return true; }
 
-function hasBasicGuildAdvancement() {
+function hasBasicGuildInvestment() {
     let permit = document.querySelector('input[name="permits"]:checked').value;
-    return permit === 'basicGuildAdvancement' || permit === 'advancedGuildAdvancement';
+    return permit === 'basicGuildInvestment' || permit === 'advancedGuildInvestment';
 }
 
-function hasAdvancedGuildAdvancement() {
+function hasAdvancedGuildInvestment() {
     let permit = document.querySelector('input[name="permits"]:checked').value;
-    return permit === 'advancedGuildAdvancement';
+    return permit === 'advancedGuildInvestment';
 }
 
 function calculateOverallTargets(benchmarks) {
@@ -183,49 +268,50 @@ function calculateOverallTargets(benchmarks) {
 
 function calculateGoldInvestmentNeededAndConsumptionTime(category, currentPoints, targetPoints, overallGoldInvestment) {
     let naturalGrowth = category === 'population' ? 50 : 2;
-    let pointGainPer10kGoldInvestment = category === 'population' ? 500 : 10;
+    let pointGain = category === 'population' ? 500 : 10;
     let naturalGrowthCap = category === 'population' ? 30000 : 600;
     let goldInvestmentNeeded = -5000;
     let rate;
-    let tempCurrentPoints = 0;
-    let tempOverallGoldInvestment = 0;
-
+    let tempCurrentPoints = parseInt(currentPoints);
+    let tempOverallGoldInvestment = parseInt(overallGoldInvestment);
+    let basicGuildInvestment = hasBasicGuildInvestment();
+    let advancedGuildInvestment = hasAdvancedGuildInvestment();
 
     let time = 0;
     while (tempCurrentPoints < targetPoints) {
         // Increment goldInvestmentNeeded by minimum increment (5000)
         goldInvestmentNeeded += 5000;
+        tempCurrentPoints = parseInt(currentPoints)
 
         // Calculate how many months this specific gold investment will last
         let tempGoldToInvest = goldInvestmentNeeded;
-        tempOverallGoldInvestment = parseInt(overallGoldInvestment);
         if(tempOverallGoldInvestment < goldInvestmentNeeded) { tempOverallGoldInvestment = goldInvestmentNeeded }
-        tempCurrentPoints = parseInt(currentPoints)
         time = 0;
 
-        //console.log(`Scenario: currently ${tempCurrentPoints} (goal: ${targetPoints} ${category}), ${tempGoldToInvest}g.`)
-        while(tempGoldToInvest > 9999 && tempCurrentPoints < parseInt(targetPoints)) {
-            if(tempOverallGoldInvestment > 150000 && hasAdvancedGuildAdvancement()) {
+        console.log(`Scenario: ${goldInvestmentNeeded} gold invested (${tempOverallGoldInvestment} overall), currently ${tempCurrentPoints}, target ${targetPoints}`)
+        while(tempGoldToInvest > 9999 && tempCurrentPoints < targetPoints) {
+            if(tempOverallGoldInvestment > 150000 && advancedGuildInvestment) {
                 rate = 20000;
-            } else if(tempOverallGoldInvestment > 50000 && (hasAdvancedGuildAdvancement() || hasBasicGuildAdvancement())) {
+                pointGain = category === 'population' ? 2500 : 50;
+            } else if(tempOverallGoldInvestment > 50000 && tempOverallGoldInvestment <= 150000 && basicGuildInvestment) {
                 rate = 15000;
+                pointGain = category === 'population' ? 1000 : 20;
             } else {
                 rate = 10000;
+                pointGain = category === 'population' ? 500 : 10;
             }
-
 
             tempGoldToInvest -= rate;
             tempOverallGoldInvestment -= rate;
             time++;
-            tempCurrentPoints += ((rate / 10000) * pointGainPer10kGoldInvestment);
+            tempCurrentPoints += pointGain;
 
-            // Update points: add natural growth if under capt
+            // Update points: add natural growth if under cap
             if (tempCurrentPoints < naturalGrowthCap) {
                 tempCurrentPoints += naturalGrowth;
             }
-            //console.log(`    spent ${rate}g, achieved ${tempCurrentPoints} points, ${tempGoldToInvest}g remaning.`)
+            console.log(`    month ${time}, spent ${rate}g, points ${tempCurrentPoints}, gold ${tempGoldToInvest}`)
         }
-        //console.log(`Scenario result: ${goldInvestmentNeeded}g resulted in ${tempCurrentPoints} (goal: ${targetPoints})`)
     }
 
     if(verbose()) { console.log(`calculateGoldAndConsumptionTime(category=${category},currentPoints=${currentPoints},targetPoints=${targetPoints},overallGoldInvestment=${overallGoldInvestment}): goldInvestmentNeeded=${goldInvestmentNeeded}, time=${time}`)}

@@ -92,3 +92,19 @@ output {
     font-weight: bold;
     color: #3399FF;
 } 
+
+#screenshot-area {
+  width: 384px;
+  height: 216px;
+  border: 1px solid black;
+  background-image: url('screenshot_default.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
