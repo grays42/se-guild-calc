@@ -145,28 +145,29 @@ checkboxes.forEach((checkbox) => {
     checkbox.addEventListener('change', calculateAndUpdate);
 });
 
+
 const benchmarks = [
-  { id: 'hobbyGoods', 'en-name': 'Hobby Goods Output +50%', 'zh-name': '业余商品产出+50%', trade: 200, population: 0, tech: 0 },
-  { id: 'foodOutput', 'en-name': 'Food Output +50%', 'zh-name': '食物产出+50%', trade: 0, population: 10000, tech: 0 },
-  { id: 'industrialGoods', 'en-name': 'Industrial Goods Output +50%', 'zh-name': '工业商品产出+50%', trade: 0, population: 0, tech: 200 },
-  { id: 'goodsStorage', 'en-name': 'Goods Storage Limit +10%', 'zh-name': '商品存储限额+10%', trade: 300, population: 15000, tech: 0 },
-  { id: 'tradeFleet1', 'en-name': '+1 Trade Fleet', 'zh-name': '贸易舰队+1', trade: 0, population: 15000, tech: 300 },
-  { id: 'spiceOutput', 'en-name': 'Spice Output +50%', 'zh-name': '香料产出+50%', trade: 400, population: 0, tech: 0 },
-  { id: 'beverageOutput', 'en-name': 'Beverage Output +50%', 'zh-name': '饮料产出+50%', trade: 0, population: 20000, tech: 0 },
-  { id: 'textileOutput', 'en-name': 'Textile Output +50%', 'zh-name': '纺织品产出+50%', trade: 0, population: 0, tech: 400 },
-  { id: 'prosperityChance', 'en-name': 'Increased Prosperity Chance', 'zh-name': '增加繁荣机会', trade: 500, population: 25000, tech: 0 },
-  { id: 'tradeFleet2', 'en-name': '+2 Trade Fleet', 'zh-name': '贸易舰队+2', trade: 0, population: 25000, tech: 500 },
-  { id: 'gemstoneOutput', 'en-name': 'Gemstone Output +50%', 'zh-name': '宝石产出+50%', trade: 600, population: 0, tech: 0 },
-  { id: 'medicineOutput', 'en-name': 'Medicine Output +50%', 'zh-name': '医药产出+50%', trade: 0, population: 30000, tech: 0 },
-  { id: 'artwareOutput', 'en-name': 'Artware Output +50%', 'zh-name': '艺术品产出+50%', trade: 0, population: 0, tech: 600 },
-  { id: 'premiumGoods', 'en-name': 'Sells Premium Goods', 'zh-name': '销售高级商品', trade: 800, population: 15000, tech: 0 },
-  { id: 'moreItemTypes', 'en-name': 'Unlocks More Item Types', 'zh-name': '解锁更多物品类型', trade: 0, population: 40000, tech: 300 },
-  { id: 'tradeFleetRange', 'en-name': 'Increased Range of Trade Fleets', 'zh-name': '贸易舰队范围增加', trade: 300, population: 0, tech: 800 },
-  { id: 'maxTrade', 'en-name': 'Max Trade', 'zh-name': '最大贸易', trade: 1000, population: 0, tech: 0 },
-  { id: 'maxPopulation', 'en-name': 'Max Population', 'zh-name': '最大人口', trade: 0, population: 50000, tech: 0 },
-  { id: 'maxTech', 'en-name': 'Max Technology', 'zh-name': '最大技术', trade: 0, population: 0, tech: 1000 }
+{ id: 'hobbyGoods', 'en-name': 'Hobby Goods Output +50%', 'zh-name': '嗜好品产量+50%', trade: 200, population: 0, tech: 0 },
+{ id: 'foodOutput', 'en-name': 'Food Output +50%', 'zh-name': '食品产量+50%', trade: 0, population: 10000, tech: 0 },
+{ id: 'industrialGoods', 'en-name': 'Industrial Goods Output +50%', 'zh-name': '工业产品产量+50%', trade: 0, population: 0, tech: 200 },
+{ id: 'goodsStorage', 'en-name': 'Goods Storage Limit +100%', 'zh-name': '交易品库存上限+100%', trade: 300, population: 15000, tech: 0 },
+{ id: 'tradeFleet1', 'en-name': '+1 Trade Fleet', 'zh-name': '贸易舰队+1', trade: 0, population: 15000, tech: 300 },
+{ id: 'spiceOutput', 'en-name': 'Spice Output +50%', 'zh-name': '香料产出+50%', trade: 400, population: 0, tech: 0 },
+{ id: 'beverageOutput', 'en-name': 'Beverage Output +50%', 'zh-name': '饮品产出+50%', trade: 0, population: 20000, tech: 0 },
+{ id: 'textileOutput', 'en-name': 'Textile Output +50%', 'zh-name': '纺织品产出+50%', trade: 0, population: 0, tech: 400 },
+{ id: 'prosperityChance', 'en-name': 'Increased Prosperity Chance', 'zh-name': '提升港口繁荣机率', trade: 500, population: 25000, tech: 0 },
+{ id: 'tradeFleet2', 'en-name': '+2 Trade Fleet', 'zh-name': '贸易舰队+2', trade: 0, population: 25000, tech: 500 },
+{ id: 'gemstoneOutput', 'en-name': 'Gemstone Output +50%', 'zh-name': '宝石产量+50%', trade: 600, population: 0, tech: 0 },
+{ id: 'medicineOutput', 'en-name': 'Medicine Output +50%', 'zh-name': '药品产量+50%', trade: 0, population: 30000, tech: 0 },
+{ id: 'artwareOutput', 'en-name': 'Artware Output +50%', 'zh-name': '工艺品产量+50%', trade: 0, population: 0, tech: 600 },
+{ id: 'premiumGoods', 'en-name': 'Sells Premium Goods', 'zh-name': '出售特级交易品', trade: 800, population: 15000, tech: 0 },
+{ id: 'moreItemTypes', 'en-name': 'Unlocks More Item Types', 'zh-name': '解锁更多道具种类', trade: 0, population: 40000, tech: 300 },
+{ id: 'tradeFleetRange', 'en-name': 'Increased Range of Trade Fleets', 'zh-name': '扩大贸易舰队范围', trade: 300, population: 0, tech: 800 },
+{ id: 'maxTrade', 'en-name': 'Max Trade', 'zh-name': '最大贸易', trade: 1000, population: 0, tech: 0 },
+{ id: 'maxPopulation', 'en-name': 'Max Population', 'zh-name': '最大人口', trade: 0, population: 50000, tech: 0 },
+{ id: 'maxTech', 'en-name': 'Max Technology', 'zh-name': '最大技术', trade: 0, population: 0, tech: 1000 }
 ];
- 
+
 const translations = {
   english: {
     processingMessage: `Paste a screenshot of your trade screen here (any language).
@@ -185,7 +186,8 @@ and current port levels will populate in the fields below.`,
     permitsLabel: "Permits:",
     guildEstablishedLabel: "Guild Established",
     basicGuildInvestmentLabel: "Basic Guild Investment",
-    advancedGuildInvestmentLabel: "Advanced Guild Investment"
+    advancedGuildInvestmentLabel: "Advanced Guild Investment",
+    fionaPerkLabel: "Have Fiona's perk 'Smart Merchant'"
   },
   chinese: {
     processingMessage: `请在此处粘贴您的交易屏幕截图（任何语言）。
@@ -204,7 +206,8 @@ and current port levels will populate in the fields below.`,
     permitsLabel: "许可证：",
     guildEstablishedLabel: "公会已成立",
     basicGuildInvestmentLabel: "基础公会投资",
-    advancedGuildInvestmentLabel: "高级公会投资"
+    advancedGuildInvestmentLabel: "高级公会投资",
+    fionaPerkLabel: "拥有菲奥娜的特权 ‘多财善贾’",
   }
 }
 
@@ -276,7 +279,8 @@ function calculateOverallTargets(benchmarks) {
     return { overallTargetTrade, overallTargetPopulation, overallTargetTech };
 }
 
-function calculateGoldInvestmentNeededAndConsumptionTime(category, currentPoints, targetPoints, overallGoldInvestment) {
+function calculateGoldInvestmentNeededAndConsumptionTime(category, currentPoints, targetPoints, overallGoldInvestment, has_fiona_perk) {
+    let multiplier = has_fiona_perk ? 1.5 : 1;
     let naturalGrowth = category === 'population' ? 50 : 2;
     let pointGain = category === 'population' ? 500 : 10;
     let naturalGrowthCap = category === 'population' ? 30000 : 600;
@@ -290,7 +294,7 @@ function calculateGoldInvestmentNeededAndConsumptionTime(category, currentPoints
     let time = 0;
     while (tempCurrentPoints < targetPoints) {
         // Increment goldInvestmentNeeded by minimum increment (5000)
-        goldInvestmentNeeded += 5000;
+        goldInvestmentNeeded += 2500;
         tempCurrentPoints = parseInt(currentPoints)
 
         // Calculate how many months this specific gold investment will last
@@ -301,14 +305,14 @@ function calculateGoldInvestmentNeededAndConsumptionTime(category, currentPoints
         if(verbose()) { console.log(`Scenario: ${goldInvestmentNeeded} gold invested (${tempOverallGoldInvestment} overall), currently ${tempCurrentPoints}, target ${targetPoints}`) }
         while(tempGoldToInvest > 9999 && tempCurrentPoints < targetPoints) {
             if(tempOverallGoldInvestment > 150000 && advancedGuildInvestment) {
-                rate = 20000;
-                pointGain = category === 'population' ? 2500 : 50;
+                rate = 20000 * multiplier;
+                pointGain = (category === 'population' ? 2500 : 50) * multiplier;
             } else if(tempOverallGoldInvestment > 50000 && tempOverallGoldInvestment <= 150000 && basicGuildInvestment) {
-                rate = 15000;
-                pointGain = category === 'population' ? 1000 : 20;
+                rate = 15000 * multiplier;
+                pointGain = (category === 'population' ? 1000 : 20) * multiplier;
             } else {
-                rate = 10000;
-                pointGain = category === 'population' ? 500 : 10;
+                rate = 10000 * multiplier;
+                pointGain = (category === 'population' ? 500 : 10);
             }
 
             tempGoldToInvest -= rate;
@@ -336,12 +340,16 @@ function calculateAndUpdate() {
   portValues['trade'] = document.getElementById('tradeInput').value;
   portValues['population'] = document.getElementById('populationInput').value;
   portValues['tech'] = document.getElementById('techInput').value;
+
   // Initialize overall gold investments to zero and create results data structure
   let overallGoldInvestment = {}
   overallGoldInvestment['trade'] = 0;
   overallGoldInvestment['population'] = 0;
   overallGoldInvestment['tech'] = 0;
   let results = {};
+
+  // Retrieve the status of the Fiona perk from a checkbox
+  let has_fiona_perk = document.getElementById('fionaPerkCheckbox').checked;
 
   // Iterate over benchmarks for each category separately
   ['trade', 'population', 'tech'].forEach(category => {
@@ -358,7 +366,7 @@ function calculateAndUpdate() {
       console.log(`Updating '${benchmark.id}' for ${category}...`);
 
       // Calculate gold investment and time estimate for category
-      let { goldInvestmentNeeded, consumptionTime } = calculateGoldInvestmentNeededAndConsumptionTime(category, portValues[category], benchmark[category], overallGoldInvestment[category]);
+      let { goldInvestmentNeeded, consumptionTime } = calculateGoldInvestmentNeededAndConsumptionTime(category, portValues[category], benchmark[category], overallGoldInvestment[category], has_fiona_perk);
       results[benchmark.id] = results[benchmark.id] || { goldInvestment: {}, timeEstimate: 0 };
       results[benchmark.id].goldInvestment[category] = goldInvestmentNeeded;
       results[benchmark.id].timeEstimate = Math.max(results[benchmark.id].timeEstimate, consumptionTime);
@@ -380,37 +388,56 @@ function calculateAndUpdate() {
 }
 
 function formatInvestments(tradeGoldInvestment, populationGoldInvestment, techGoldInvestment, timeToComplete) {
-  investments = getCurrentInvestments()
+  investments = getCurrentInvestments();
   tradeGoldInvestment = Math.max(0, tradeGoldInvestment - investments.currentInvestmentTrade);
   populationGoldInvestment = Math.max(0, populationGoldInvestment - investments.currentInvestmentPopulation);
   techGoldInvestment = Math.max(0, techGoldInvestment - investments.currentInvestmentTech);
+
+  let formattedInvestments = [];
+
+  let language = document.querySelector('input[name="language"]:checked').value;
 
   if (tradeGoldInvestment === 0 && populationGoldInvestment === 0 && techGoldInvestment === 0) {
     return "";
   }
 
-  let formattedInvestments = [];
-
   if (tradeGoldInvestment > 0) {
-    formattedInvestments.push(`${tradeGoldInvestment}g in trade`);
+    if (language === "English") {
+      formattedInvestments.push(`${tradeGoldInvestment}g in trade`);
+    } else {
+      formattedInvestments.push(`贸易还需要投资${tradeGoldInvestment}金`);
+    }
   }
 
   if (populationGoldInvestment > 0) {
-    formattedInvestments.push(`${populationGoldInvestment}g in population`);
+    if (language === "English") {
+      formattedInvestments.push(`${populationGoldInvestment}g in population`);
+    } else {
+      formattedInvestments.push(`人口还需要投资${populationGoldInvestment}金`);
+    }
   }
 
   if (techGoldInvestment > 0) {
-    formattedInvestments.push(`${techGoldInvestment}g in tech`);
+    if (language === "English") {
+      formattedInvestments.push(`${techGoldInvestment}g in tech`);
+    } else {
+      formattedInvestments.push(`技术还需要投资${techGoldInvestment}金`);
+    }
   }
 
   let result = formattedInvestments.join(', ');
 
   if (timeToComplete > 0) {
-    result += ` (${timeToComplete} months)`;
+    if (language === "English") {
+      result += ` (${timeToComplete} months)`;
+    } else {
+      result += ` (${timeToComplete} 月)`;
+    }
   }
 
   return result;
 }
+
 
 function getCurrentInvestments() {
   let currentInvestmentTrade = parseInt(document.getElementById('currentInvestmentTrade').value) || 0;

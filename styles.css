@@ -58,6 +58,10 @@ input[type="radio"]:checked + label {
     color: #007FFF; /* Blue */
 }
 
+.inline-label {
+    display: inline; 
+}
+
 span {
     display: block;
     margin: 5px 0;
