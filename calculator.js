@@ -187,7 +187,8 @@ and current port levels will populate in the fields below.`,
     guildEstablishedLabel: "Guild Established",
     basicGuildInvestmentLabel: "Basic Guild Investment",
     advancedGuildInvestmentLabel: "Advanced Guild Investment",
-    fionaPerkLabel: "Have Fiona's perk 'Smart Merchant'"
+    fionaPerkLabel: "Have Fiona's perk 'Smart Merchant'",
+    businessScaleLabel: "Have 'Business Scale' Special Item"
   },
   chinese: {
     processingMessage: `请在此处粘贴您的交易屏幕截图（任何语言）。
@@ -208,6 +209,7 @@ and current port levels will populate in the fields below.`,
     basicGuildInvestmentLabel: "基础公会投资",
     advancedGuildInvestmentLabel: "高级公会投资",
     fionaPerkLabel: "拥有菲奥娜的特权 ‘多财善贾’",
+    businessScaleLabel: "拥有 ‘商业天平’ 特殊物品",
   }
 }
 
@@ -279,7 +281,7 @@ function calculateOverallTargets(benchmarks) {
     return { overallTargetTrade, overallTargetPopulation, overallTargetTech };
 }
 
-function calculateGoldInvestmentNeededAndConsumptionTime(category, currentPoints, targetPoints, overallGoldInvestment, has_fiona_perk) {
+function calculateGoldInvestmentNeededAndConsumptionTime(category, currentPoints, targetPoints, overallGoldInvestment, has_fiona_perk, has_business_scale) {
     let multiplier = has_fiona_perk ? 1.5 : 1;
     let naturalGrowth = category === 'population' ? 50 : 2;
     let pointGain = category === 'population' ? 500 : 10;
@@ -312,7 +314,13 @@ function calculateGoldInvestmentNeededAndConsumptionTime(category, currentPoints
                 pointGain = (category === 'population' ? 1000 : 20) * multiplier;
             } else {
                 rate = 10000 * multiplier;
-                pointGain = (category === 'population' ? 500 : 10);
+                pointGain = (category === 'population' ? 500 : 10) * multiplier;
+            }
+
+            // Apply business scale bonus if applicable
+            // (and yes, it's +20 no matter the category, even population, which doesn't scale right but that's the way the game does it)
+            if (has_business_scale) {
+                pointGain += 20;
             }
 
             tempGoldToInvest -= rate;
@@ -350,6 +358,7 @@ function calculateAndUpdate() {
 
   // Retrieve the status of the Fiona perk from a checkbox
   let has_fiona_perk = document.getElementById('fionaPerkCheckbox').checked;
+  let has_business_scale = document.getElementById('businessScaleCheckbox').checked;
 
   // Iterate over benchmarks for each category separately
   ['trade', 'population', 'tech'].forEach(category => {
@@ -366,7 +375,7 @@ function calculateAndUpdate() {
       console.log(`Updating '${benchmark.id}' for ${category}...`);
 
       // Calculate gold investment and time estimate for category
-      let { goldInvestmentNeeded, consumptionTime } = calculateGoldInvestmentNeededAndConsumptionTime(category, portValues[category], benchmark[category], overallGoldInvestment[category], has_fiona_perk);
+      let { goldInvestmentNeeded, consumptionTime } = calculateGoldInvestmentNeededAndConsumptionTime(category, portValues[category], benchmark[category], overallGoldInvestment[category], has_fiona_perk, has_business_scale);
       results[benchmark.id] = results[benchmark.id] || { goldInvestment: {}, timeEstimate: 0 };
       results[benchmark.id].goldInvestment[category] = goldInvestmentNeeded;
       results[benchmark.id].timeEstimate = Math.max(results[benchmark.id].timeEstimate, consumptionTime);
